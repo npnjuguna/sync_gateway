@@ -40,3 +40,39 @@
 [submodule "vendor/src/github.com/natefinch/npipe"]
 	path = vendor/src/github.com/natefinch/npipe
 	url = https://github.com/natefinch/npipe
+[submodule "src/github.com/couchbase/gomemcached"]
+	path = src/github.com/couchbase/gomemcached
+	url = https://github.com/couchbase/gomemcached.git
+[submodule "src/github.com/couchbaselabs/go-couchbase"]
+	path = src/github.com/couchbaselabs/go-couchbase
+	url = https://github.com/couchbaselabs/go-couchbase.git
+[submodule "src/github.com/couchbaselabs/go.assert"]
+	path = src/github.com/couchbaselabs/go.assert
+	url = https://github.com/couchbaselabs/go.assert.git
+[submodule "src/github.com/couchbaselabs/retriever"]
+	path = src/github.com/couchbaselabs/retriever
+	url = https://github.com/couchbaselabs/retriever.git
+[submodule "src/github.com/couchbaselabs/sync_gateway_admin_ui"]
+	path = src/github.com/couchbaselabs/sync_gateway_admin_ui
+	url = https://github.com/couchbaselabs/sync_gateway_admin_ui.git
+[submodule "src/github.com/couchbaselabs/walrus"]
+	path = src/github.com/couchbaselabs/walrus
+	url = https://github.com/couchbaselabs/walrus.git
+[submodule "src/github.com/gorilla/context"]
+	path = src/github.com/gorilla/context
+	url = https://github.com/gorilla/context.git
+[submodule "src/github.com/gorilla/mux"]
+	path = src/github.com/gorilla/mux
+	url = https://github.com/gorilla/mux.git
+[submodule "src/github.com/natefinch/npipe"]
+	path = src/github.com/natefinch/npipe
+	url = https://github.com/natefinch/npipe.git
+[submodule "src/github.com/robertkrimen/otto"]
+	path = src/github.com/robertkrimen/otto
+	url = https://github.com/robertkrimen/otto.git
+[submodule "src/github.com/samuel/go-metrics"]
+	path = src/github.com/samuel/go-metrics
+	url = https://github.com/samuel/go-metrics.git
+[submodule "src/github.com/tleyden/fakehttp"]
+	path = src/github.com/tleyden/fakehttp
+	url = https://github.com/tleyden/fakehttp.git
