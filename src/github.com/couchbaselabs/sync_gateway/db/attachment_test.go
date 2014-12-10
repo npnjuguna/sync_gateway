@@ -15,7 +15,7 @@ import (
 	"log"
 	"testing"
 
-	"github.com/couchbaselabs/go.assert"
+	"github.com/couchbaselabs/assert"
 )
 
 func unjson(j string) Body {
