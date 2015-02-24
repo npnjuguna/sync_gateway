@@ -42,6 +42,7 @@ type DatabaseContext struct {
 	revisionCache      *RevisionCache          // Cache of recently-accessed doc revisions
 	changeCache        changeCache             //
 	EventMgr           *EventManager           // Manages notification events
+	AllowEmptyPassword bool                    // Allow empty passwords?  Defaults to false
 }
 
 const DefaultRevsLimit = 1000
@@ -133,7 +134,7 @@ func (context *DatabaseContext) IsClosed() bool {
 
 func (context *DatabaseContext) Authenticator() *auth.Authenticator {
 	// Authenticators are lightweight & stateless, so it's OK to return a new one every time
-	return auth.NewAuthenticator(context.Bucket, context)
+	return auth.NewAuthenticator(context.Bucket, context, context.AllowEmptyPassword)
 }
 
 // Makes a Database object given its name and bucket.

@@ -16,10 +16,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/couchbaselabs/go.assert"
 	"github.com/couchbase/sync_gateway/auth"
 	"github.com/couchbase/sync_gateway/channels"
 	"github.com/couchbase/sync_gateway/db"
+	"github.com/couchbaselabs/go.assert"
 )
 
 func TestUserAPI(t *testing.T) {
@@ -160,7 +160,7 @@ func TestGuestUser(t *testing.T) {
 
 func TestSessionExtension(t *testing.T) {
 	var rt restTester
-	a := auth.NewAuthenticator(rt.bucket(), nil)
+	a := auth.NewAuthenticator(rt.bucket(), nil, false)
 	user, err := a.GetUser("")
 	assert.Equals(t, err, nil)
 	user.SetDisabled(true)

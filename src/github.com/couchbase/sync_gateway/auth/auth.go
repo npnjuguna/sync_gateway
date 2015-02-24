@@ -20,8 +20,9 @@ import (
 
 /** Manages user authentication for a database. */
 type Authenticator struct {
-	bucket          base.Bucket
-	channelComputer ChannelComputer
+	bucket             base.Bucket
+	channelComputer    ChannelComputer
+	allowEmptyPassword bool
 }
 
 // Interface for deriving the set of channels and roles a User/Role has access to.
@@ -36,10 +37,11 @@ type userByEmailInfo struct {
 }
 
 // Creates a new Authenticator that stores user info in the given Bucket.
-func NewAuthenticator(bucket base.Bucket, channelComputer ChannelComputer) *Authenticator {
+func NewAuthenticator(bucket base.Bucket, channelComputer ChannelComputer, allowEmptyPassword bool) *Authenticator {
 	return &Authenticator{
-		bucket:          bucket,
-		channelComputer: channelComputer,
+		bucket:             bucket,
+		channelComputer:    channelComputer,
+		allowEmptyPassword: allowEmptyPassword,
 	}
 }
 

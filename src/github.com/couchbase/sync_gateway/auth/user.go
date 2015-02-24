@@ -28,8 +28,9 @@ const kBcryptCostFactor = bcrypt.DefaultCost
 type userImpl struct {
 	roleImpl // userImpl "inherits from" Role
 	userImplBody
-	auth  *Authenticator
-	roles []Role
+	auth               *Authenticator
+	roles              []Role
+	allowEmptyPassword bool
 }
 
 // Marshalable data is stored in separate struct from userImpl,
@@ -95,7 +96,10 @@ func (auth *Authenticator) NewUser(username string, password string, channels ba
 }
 
 func (auth *Authenticator) UnmarshalUser(data []byte, defaultName string, defaultSequence uint64) (User, error) {
-	user := &userImpl{auth: auth}
+	user := &userImpl{
+		auth:               auth,
+		allowEmptyPassword: auth.allowEmptyPassword,
+	}
 	if err := json.Unmarshal(data, user); err != nil {
 		return nil, err
 	}
@@ -121,8 +125,7 @@ func (user *userImpl) validate() error {
 		return base.HTTPErrorf(http.StatusBadRequest, "Invalid email address")
 	} else if user.OldPasswordHash_ != nil {
 		return base.HTTPErrorf(http.StatusBadRequest, "Obsolete password hash present")
-	} else if (user.Name_ == "") != (user.PasswordHash_ == nil) {
-		// Real user must have a password; anon user must not have a password
+	} else if !user.validatePassword() {
 		return base.HTTPErrorf(http.StatusBadRequest, "Invalid password")
 	}
 	for roleName, _ := range user.ExplicitRoles_ {
@@ -131,6 +134,23 @@ func (user *userImpl) validate() error {
 		}
 	}
 	return nil
+}
+
+func (user *userImpl) validatePassword() bool {
+
+	// if it's an anon user, they should not have a password
+	if user.Name_ == "" {
+		return (user.PasswordHash_ == nil)
+	}
+
+	// if empty passwords are allowed, skip validation
+	if user.AllowEmptyPassword() {
+		return true
+	}
+
+	// otherwise, make sure the user has a password
+	return user.PasswordHash_ != nil
+
 }
 
 // Key prefix reserved for user documents in the bucket
@@ -292,6 +312,14 @@ func (user *userImpl) FilterToAvailableChannels(channels base.Set) ch.TimedSet {
 		output.AddChannel(channel, user.CanSeeChannelSince(channel))
 	}
 	return output
+}
+
+func (user *userImpl) AllowEmptyPassword() bool {
+	return user.allowEmptyPassword
+}
+
+func (user *userImpl) SetAllowEmptyPassword(allow bool) {
+	user.allowEmptyPassword = allow
 }
 
 //////// MARSHALING:

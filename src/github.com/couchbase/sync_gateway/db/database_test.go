@@ -180,7 +180,7 @@ func TestGetDeleted(t *testing.T) {
 	assert.DeepEquals(t, body, expectedResult)
 
 	// Try again but with a user who doesn't have access to this revision (see #179)
-	authenticator := auth.NewAuthenticator(db.Bucket, db)
+	authenticator := auth.NewAuthenticator(db.Bucket, db, false)
 	db.user, err = authenticator.GetUser("")
 	assertNoError(t, err, "GetUser")
 	db.user.SetExplicitChannels(nil)
@@ -544,7 +544,7 @@ func TestAccessFunction(t *testing.T) {
 	db := setupTestDB(t)
 	defer tearDownTestDB(t, db)
 
-	authenticator := auth.NewAuthenticator(db.Bucket, db)
+	authenticator := auth.NewAuthenticator(db.Bucket, db, false)
 
 	var err error
 	db.ChannelMapper = channels.NewChannelMapper(`function(doc){access(doc.users,doc.userChannels);}`)
@@ -591,7 +591,7 @@ func TestUpdateDesignDoc(t *testing.T) {
 	err := db.PutDesignDoc("official", DesignDoc{})
 	assertNoError(t, err, "add design doc as admin")
 
-	authenticator := auth.NewAuthenticator(db.Bucket, db)
+	authenticator := auth.NewAuthenticator(db.Bucket, db, false)
 	db.user, _ = authenticator.NewUser("naomi", "letmein", channels.SetOf("Netflix"))
 	err = db.PutDesignDoc("_design/pwn3d", DesignDoc{})
 	assertHTTPError(t, err, 403)

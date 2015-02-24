@@ -604,7 +604,7 @@ func TestResponseEncoding(t *testing.T) {
 
 func TestLogin(t *testing.T) {
 	var rt restTester
-	a := auth.NewAuthenticator(rt.bucket(), nil)
+	a := auth.NewAuthenticator(rt.bucket(), nil, false)
 	user, err := a.GetUser("")
 	assert.Equals(t, err, nil)
 	user.SetDisabled(true)
@@ -664,7 +664,7 @@ func TestAccessControl(t *testing.T) {
 
 	// Create some docs:
 	var rt restTester
-	a := auth.NewAuthenticator(rt.bucket(), nil)
+	a := auth.NewAuthenticator(rt.bucket(), nil, false)
 	guest, err := a.GetUser("")
 	assert.Equals(t, err, nil)
 	guest.SetDisabled(false)
@@ -1471,7 +1471,7 @@ func TestStarAccess(t *testing.T) {
 	var rt restTester
 
 	base.LogKeys["Changes+"] = true
-	a := auth.NewAuthenticator(rt.bucket(), nil)
+	a := auth.NewAuthenticator(rt.bucket(), nil, false)
 	var changes struct {
 		Results []db.ChangeEntry
 	}
